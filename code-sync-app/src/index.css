@@ -1,0 +1,115 @@
+/* CodeSync Design System — Tailwind v4 */
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-bg:        #0f1117;
+    --color-surface:   #1a1d27;
+    --color-border:    #2a2d3a;
+    --color-text:      #e2e4ed;
+    --color-muted:     #6b7280;
+    --color-primary:   #6366f1;
+    --color-success:   #22c55e;
+    --color-warning:   #f59e0b;
+    --color-danger:    #ef4444;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-surface); }
+  ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+}
+
+/* ── diff2html dark theme overrides ─────────────────────────────────────────── */
+
+.diff2html-wrapper .d2h-wrapper {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  font-size: 12px;
+}
+
+.diff2html-wrapper .d2h-file-header {
+  background-color: #1a1d27;
+  border-color: #2a2d3a;
+  color: #9ca3af;
+}
+
+.diff2html-wrapper .d2h-file-name {
+  color: #c4b5fd;
+}
+
+.diff2html-wrapper .d2h-code-linenumber,
+.diff2html-wrapper .d2h-code-side-linenumber {
+  background-color: #0f1117;
+  border-color: #2a2d3a;
+  color: #4b5563;
+}
+
+.diff2html-wrapper .d2h-code-line,
+.diff2html-wrapper .d2h-code-side-line {
+  background-color: #0f1117;
+  color: #d1d5db;
+}
+
+.diff2html-wrapper .d2h-ins {
+  background-color: #052e16 !important;
+  color: #86efac;
+}
+
+.diff2html-wrapper .d2h-ins .d2h-code-line-ctn ins,
+.diff2html-wrapper .d2h-ins ins {
+  background-color: #14532d;
+  text-decoration: none;
+}
+
+.diff2html-wrapper .d2h-del {
+  background-color: #2d0a0a !important;
+  color: #fca5a5;
+}
+
+.diff2html-wrapper .d2h-del .d2h-code-line-ctn del,
+.diff2html-wrapper .d2h-del del {
+  background-color: #7f1d1d;
+  text-decoration: none;
+}
+
+.diff2html-wrapper .d2h-info {
+  background-color: #1e1b4b;
+  color: #818cf8;
+  border-color: #2a2d3a;
+}
+
+.diff2html-wrapper .d2h-file-list-wrapper {
+  background-color: #1a1d27;
+  border-color: #2a2d3a;
+}
+
+.diff2html-wrapper .d2h-file-list li {
+  border-color: #2a2d3a;
+}
+
+.diff2html-wrapper .d2h-file-list a {
+  color: #a5b4fc;
+}
+
+.diff2html-wrapper table {
+  border-color: #2a2d3a;
+}
+
+.diff2html-wrapper td {
+  border-color: #2a2d3a;
+}
+

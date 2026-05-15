@@ -1,0 +1,141 @@
+/**
+ * PushPanel — file status list + generate & upload controls.
+ */
+
+import { useEffect } from 'react'
+import { useStore } from '../../store'
+import { useGitStatus, usePush } from '../../hooks'
+import { useI18n } from '../../lib/i18n'
+import { Badge, Button, ProgressBar, SectionHeader, EmptyState, Tooltip } from '../common'
+import type { FileStatus } from '../../types'
+
+const statusVariant: Record<FileStatus['status'], 'warning' | 'success' | 'info'> = {
+  unstaged: 'warning',
+  staged:   'success',
+  untracked: 'info',
+}
+
+export function PushPanel() {
+  const { state, dispatch } = useStore()
+  const { refresh } = useGitStatus()
+  const { push } = usePush()
+  const { t } = useI18n()
+
+  // Load git status on mount / project change
+  useEffect(() => {
+    refresh()
+  }, [state.activeProjectId]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const allSelected = state.fileStatuses.length > 0 &&
+    state.fileStatuses.every(f => state.selectedFiles.has(f.rel_path))
+
+  const isBusy = state.progress.phase !== 'idle'
+
+  const handleSelectAll = () => {
+    if (allSelected) dispatch({ type: 'DESELECT_ALL_FILES' })
+    else dispatch({ type: 'SELECT_ALL_FILES' })
+  }
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Progress bar */}
+      {isBusy && (
+        <div className="px-4 pt-3">
+          <ProgressBar percent={state.progress.percent} label={state.progress.message} />
+        </div>
+      )}
+
+      {/* File list */}
+      <div className="flex-1 overflow-y-auto px-4 py-3">
+        <SectionHeader
+          title={`${t('push.title')} (${state.fileStatuses.length})`}
+          action={
+            <div className="flex gap-1">
+              <Button variant="ghost" size="sm" onClick={refresh} disabled={isBusy}>
+                {t('push.refresh')}
+              </Button>
+              {state.fileStatuses.length > 0 && (
+                <Button variant="ghost" size="sm" onClick={handleSelectAll}>
+                  {allSelected ? t('push.deselect_all') : t('push.select_all')}
+                </Button>
+              )}
+            </div>
+          }
+        />
+
+        {state.isLoading ? (
+          <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
+            {t('push.loading')}
+          </div>
+        ) : state.fileStatuses.length === 0 ? (
+          <EmptyState
+            icon="✓"
+            title={t('push.empty_title')}
+            description={t('push.empty_desc')}
+          />
+        ) : (
+          <ul className="space-y-1">
+            {state.fileStatuses.map(file => {
+              const selected = state.selectedFiles.has(file.rel_path)
+              return (
+                <li
+                  key={file.rel_path}
+                  onClick={() => dispatch({ type: 'TOGGLE_FILE_SELECTION', payload: file.rel_path })}
+                  className={`flex items-center gap-2.5 px-2 py-1.5 rounded cursor-pointer transition-colors
+                    ${selected ? 'bg-indigo-500/10 hover:bg-indigo-500/15' : 'hover:bg-white/4'}`}
+                >
+                  {/* Checkbox */}
+                  <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0
+                    ${selected ? 'bg-indigo-600 border-indigo-500' : 'border-white/20 bg-white/4'}`}>
+                    {selected && <span className="text-white text-[10px] leading-none">✓</span>}
+                  </div>
+
+                  {/* File path */}
+                  <span className="text-xs text-gray-300 font-mono truncate flex-1" title={file.rel_path}>
+                    {file.rel_path}
+                  </span>
+
+                  {/* Status badge */}
+                  <Badge variant={statusVariant[file.status]}>
+                    {file.status}
+                  </Badge>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </div>
+
+      {/* Action bar */}
+      <div className="px-4 py-3 border-t border-white/8 flex items-center gap-2">
+        <div className="flex-1" />
+
+        <span className="text-xs text-gray-500">
+          {state.selectedFiles.size} / {state.fileStatuses.length} {t('push.selected')}
+        </span>
+
+        <Tooltip content={
+          !state.activeProjectId ? t('push.no_project') :
+          !state.activeConnectionId ? t('push.no_server') :
+          state.selectedFiles.size === 0 ? t('push.no_files') :
+          t('push.tooltip')
+        }>
+          <Button
+            variant="primary"
+            size="md"
+            loading={isBusy}
+            onClick={push}
+            disabled={
+              !state.activeProjectId ||
+              !state.activeConnectionId ||
+              state.selectedFiles.size === 0 ||
+              isBusy
+            }
+          >
+            {t('push.button')}
+          </Button>
+        </Tooltip>
+      </div>
+    </div>
+  )
+}

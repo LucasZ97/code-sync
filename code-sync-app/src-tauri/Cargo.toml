@@ -1,0 +1,58 @@
+[package]
+name = "code-sync-app"
+version = "0.1.0"
+description = "A Tauri App"
+authors = ["you"]
+edition = "2021"
+
+[lib]
+name = "code_sync_app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri              = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde              = { version = "1", features = ["derive"] }
+serde_json         = "1"
+tokio              = { version = "1", features = ["full"] }
+
+# SSH
+russh              = "0.45"
+russh-sftp         = "2.0"
+russh-keys         = "0.45"
+
+# Encoding detection
+chardetng          = "0.1"
+encoding_rs        = "0.8"
+
+# Configuration
+toml               = "0.8"
+dirs               = "5"
+
+# Error handling
+thiserror          = "1"
+anyhow             = "1"
+
+# Hashing
+sha2               = "0.10"
+hex                = "0.4"
+
+# Logging
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Time
+chrono             = { version = "0.4", features = ["serde"] }
+
+# Syncignore matching
+globset            = "0.4"
+
+# Async trait
+async-trait        = "0.1"
+
+# UUID
+uuid               = { version = "1", features = ["v4"] }
+hostname = "0.4.2"
