@@ -9,7 +9,7 @@ You work on multiple machines (e.g., a MacBook and a Linux workstation) but can'
 ## How It Works
 
 ```
-┌──────────────┐         SSH/SFTP         ┌──────────────┐
+┌──────────────┐         SSH/SFTP          ┌──────────────┐
 │  Machine A   │ ──── push patch ────────▶ │ Linux Relay  │
 │  (macOS/Win) │                           │   Server     │
 └──────────────┘                           └──────┬───────┘
