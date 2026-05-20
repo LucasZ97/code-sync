@@ -45,7 +45,7 @@ export function DiffViewer({ diffText, viewType = 'line-by-line' }: DiffViewerPr
   return (
     <div
       ref={containerRef}
-      className="diff2html-wrapper overflow-auto h-full text-xs"
+      className="diff2html-wrapper overflow-auto h-full text-xs rounded-xl"
     />
   )
 }

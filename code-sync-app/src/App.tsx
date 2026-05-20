@@ -40,14 +40,14 @@ function AppInner() {
   })()
 
   return (
-    <div className="flex flex-col h-screen bg-gray-950 text-gray-100 overflow-hidden select-none">
+    <div className="app-shell flex flex-col h-screen text-gray-100 overflow-hidden select-none">
       {/* Top bar */}
       <TopBar onOpenSettings={() => dispatch({ type: 'SHOW_WIZARD', payload: true })} />
 
       {/* Middle: sidebar + panel */}
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <main className="flex-1 overflow-hidden">
+        <main className="panel-surface flex-1 overflow-hidden">
           {panel}
         </main>
       </div>

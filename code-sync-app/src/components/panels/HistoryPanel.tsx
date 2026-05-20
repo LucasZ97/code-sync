@@ -39,7 +39,7 @@ export function HistoryPanel() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto px-4 py-3">
+      <div className="flex-1 overflow-y-auto px-5 py-4">
         <SectionHeader
           title={`${t('history.title')} (${state.history.length})`}
           action={
@@ -60,11 +60,11 @@ export function HistoryPanel() {
             {[...state.history].reverse().map(entry => (
               <li
                 key={entry.id}
-                className="flex flex-col gap-1.5 px-3 py-2.5 rounded border border-white/8 bg-white/3"
+                className="mac-list-row flex flex-col gap-1.5 px-3.5 py-3 rounded-lg"
               >
                 {/* Top row */}
                 <div className="flex items-center gap-2">
-                  <span className={`text-sm font-bold ${entry.direction === 'push' ? 'text-indigo-400' : 'text-emerald-400'}`}>
+                  <span className={`grid h-6 w-6 place-items-center rounded-full text-sm font-bold ${entry.direction === 'push' ? 'bg-[#0a84ff]/14 text-[#9ed0ff]' : 'bg-[#32d74b]/14 text-[#a8f5b4]'}`}>
                     {directionIcon[entry.direction]}
                   </span>
                   <span className="text-xs text-gray-200 font-mono truncate flex-1" title={entry.patch_name}>
@@ -74,13 +74,13 @@ export function HistoryPanel() {
                 </div>
 
                 {/* Meta row */}
-                <div className="flex items-center gap-3 text-xs text-gray-500 pl-5">
+                <div className="flex items-center gap-3 text-xs text-gray-500 pl-8">
                   <span>
                     {entry.files_changed} {entry.files_changed !== 1 ? t('history.files_plural') : t('history.files')}
                   </span>
                   {entry.strategy_used && <span>{t('history.via')} {entry.strategy_used}</span>}
                   <span className="font-mono">@{entry.base_commit}</span>
-                  <span className="ml-auto">{formatDate(entry.created_at)}</span>
+                  <span className="ml-auto tabular-nums">{formatDate(entry.created_at)}</span>
                 </div>
               </li>
             ))}

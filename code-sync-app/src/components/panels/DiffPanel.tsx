@@ -39,21 +39,21 @@ export function DiffPanel() {
   return (
     <div className="flex flex-col h-full">
       {/* Toolbar */}
-      <div className="px-4 py-2 border-b border-white/8 flex items-center gap-2 shrink-0">
+      <div className="mac-action-bar px-5 py-3 border-b flex items-center gap-2 shrink-0">
         <SectionHeader
           title={patchDiff ? patchDiff.patch_name : t('diff.title')}
           action={
             <div className="flex items-center gap-1">
               {/* View mode toggle */}
-              <div className="flex rounded border border-white/10 overflow-hidden">
+              <div className="segmented-control flex rounded-md overflow-hidden p-0.5">
                 {(['line-by-line', 'side-by-side'] as ViewMode[]).map(mode => (
                   <button
                     key={mode}
                     onClick={() => setViewMode(mode)}
-                    className={`px-2 py-0.5 text-xs transition-colors
+                    className={`px-2.5 py-1 text-xs rounded transition-all
                       ${viewMode === mode
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-white/4 text-gray-400 hover:text-gray-200'
+                        ? 'bg-white/18 text-white shadow-sm'
+                        : 'text-gray-400 hover:text-gray-100'
                       }`}
                   >
                     {mode === 'line-by-line' ? t('diff.unified') : t('diff.split')}
@@ -77,7 +77,7 @@ export function DiffPanel() {
 
       {/* Conflict banner */}
       {patchDiff && patchDiff.conflict_files.length > 0 && (
-        <div className="px-4 py-2 bg-red-500/10 border-b border-red-500/20 flex items-center gap-2 shrink-0">
+        <div className="px-5 py-2.5 bg-[#ff453a]/10 border-b border-[#ff453a]/20 flex items-center gap-2 shrink-0">
           <Badge variant="danger">
             {patchDiff.conflict_files.length} {patchDiff.conflict_files.length !== 1 ? t('diff.conflicts_plural') : t('diff.conflicts')}
           </Badge>
@@ -99,13 +99,13 @@ export function DiffPanel() {
           <div className="h-full overflow-y-auto">
             {/* Conflict viewer */}
             {patchDiff.conflict_files.length > 0 && (
-              <div className="px-4 py-3 border-b border-white/8">
+              <div className="px-5 py-4 border-b border-white/8">
                 <ConflictViewer conflicts={patchDiff.conflict_files.map(path => ({ path, rejContent: '' }))} />
               </div>
             )}
 
             {/* Diff viewer */}
-            <div className="px-2 py-2 h-full">
+            <div className="px-3 py-3 h-full">
               <DiffViewer diffText={patchDiff.diff_text} viewType={viewMode} />
             </div>
           </div>

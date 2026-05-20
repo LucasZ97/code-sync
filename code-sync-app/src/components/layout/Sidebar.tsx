@@ -24,7 +24,7 @@ export function Sidebar() {
   const { t } = useI18n()
 
   return (
-    <nav className="flex flex-col w-14 border-r border-white/8 bg-gray-950/40 shrink-0 pt-2">
+    <nav className="mac-sidebar flex flex-col w-[68px] border-r shrink-0 px-2 py-3">
       {NAV_ITEMS.map(({ view, labelKey, icon }) => {
         const active = state.activeView === view
         return (
@@ -32,14 +32,15 @@ export function Sidebar() {
             key={view}
             onClick={() => dispatch({ type: 'SET_VIEW', payload: view })}
             title={t(labelKey)}
-            className={`flex flex-col items-center justify-center gap-0.5 py-3 text-xs transition-colors
+            className={`relative flex flex-col items-center justify-center gap-1 py-2.5 mb-1 rounded-xl text-xs transition-all duration-150
               ${active
-                ? 'text-indigo-400 bg-indigo-500/10 border-r-2 border-indigo-500'
-                : 'text-gray-500 hover:text-gray-300 hover:bg-white/4 border-r-2 border-transparent'
+                ? 'text-white bg-white/12 shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_8px_20px_rgba(0,0,0,0.12)]'
+                : 'text-gray-500 hover:text-gray-200 hover:bg-white/7'
               }`}
           >
-            <span className="text-base leading-none">{icon}</span>
-            <span className="text-[10px]">{t(labelKey)}</span>
+            {active && <span className="absolute left-[-8px] top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-[#0a84ff]" />}
+            <span className="text-[18px] leading-none">{icon}</span>
+            <span className="text-[10px] font-medium leading-none">{t(labelKey)}</span>
           </button>
         )
       })}

@@ -48,38 +48,38 @@ export function ConflictViewer({ conflicts }: ConflictViewerProps) {
         }
       />
 
-      <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-3 text-xs text-red-300 mb-3">
+      <div className="rounded-xl border border-[#ff453a]/30 bg-[#ff453a]/8 p-3 text-xs text-[#ffb4ae] mb-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
         {t('conflict.banner')}
       </div>
 
       {conflicts.map(({ path, rejContent }) => (
-        <div key={path} className="border border-white/8 rounded-lg overflow-hidden">
+        <div key={path} className="mac-list-row rounded-xl overflow-hidden">
           {/* Header */}
           <div
-            className="flex items-center gap-2 px-3 py-2 bg-white/4 cursor-pointer hover:bg-white/6"
+            className="flex items-center gap-2 px-3 py-2.5 bg-white/4 cursor-pointer hover:bg-white/7"
             onClick={() => toggle(path)}
           >
-            <span className="text-red-400 text-sm">✕</span>
+            <span className="text-[#ff8a82] text-sm">✕</span>
             <span className="text-xs font-mono text-gray-200 flex-1 truncate">{path}.rej</span>
             <Button
               variant="ghost"
               size="sm"
               onClick={e => { e.stopPropagation(); copyToClipboard(path, rejContent) }}
-              className="!py-0 !px-1.5 text-[10px]"
+              className="!py-0 !px-1.5 !min-h-6 text-[10px]"
             >
               {copied === path ? t('conflict.copied') : t('conflict.copy')}
             </Button>
-            <span className="text-gray-600 text-xs">{expanded.has(path) ? '▾' : '▸'}</span>
+            <span className="text-gray-500 text-xs">{expanded.has(path) ? '⌄' : '›'}</span>
           </div>
 
           {/* Rej content */}
           {expanded.has(path) && (
-            <pre className="overflow-x-auto p-3 text-xs font-mono leading-relaxed bg-gray-950/60">
+            <pre className="overflow-x-auto p-3 text-xs font-mono leading-relaxed bg-black/25">
               {rejContent.split('\n').map((line, i) => {
                 const cls =
-                  line.startsWith('+') ? 'text-green-400' :
-                  line.startsWith('-') ? 'text-red-400' :
-                  line.startsWith('@@') ? 'text-indigo-400' :
+                  line.startsWith('+') ? 'text-[#a8f5b4]' :
+                  line.startsWith('-') ? 'text-[#ffb4ae]' :
+                  line.startsWith('@@') ? 'text-[#9ed0ff]' :
                   'text-gray-400'
                 return (
                   <span key={i} className={`block ${cls}`}>{line || ' '}</span>

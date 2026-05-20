@@ -115,8 +115,8 @@ export function ProjectManager() {
   const close = () => dispatch({ type: 'SHOW_PROJECT_MANAGER', payload: false })
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-gray-900 border border-white/10 rounded-xl shadow-2xl w-full max-w-md mx-4">
+    <div className="mac-sheet-backdrop fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xl">
+      <div className="mac-modal w-full max-w-md mx-4 rounded-2xl overflow-hidden">
 
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-white/8 flex items-center justify-between">
@@ -126,7 +126,7 @@ export function ProjectManager() {
               <p className="text-xs text-gray-400 mt-0.5">{t('project.manager_desc')}</p>
             )}
           </div>
-          <button onClick={close} className="text-gray-500 hover:text-gray-300 text-lg leading-none">✕</button>
+          <button onClick={close} className="grid h-7 w-7 place-items-center rounded-full text-gray-500 hover:text-gray-100 hover:bg-white/8 text-sm leading-none">✕</button>
         </div>
 
         {/* Body */}
@@ -141,9 +141,9 @@ export function ProjectManager() {
                     const server = connections.find(c => c.id === project.connection_id)
                     return (
                       <li key={project.id}
-                        className="flex items-center justify-between bg-white/4 border border-white/8 rounded-lg px-3 py-2.5">
+                        className="mac-list-row flex items-center justify-between rounded-xl px-3.5 py-3">
                         <div className="min-w-0 flex-1 mr-3">
-                          <p className="text-sm text-gray-200 truncate">{project.name}</p>
+                          <p className="text-sm font-medium text-gray-100 truncate">{project.name}</p>
                           <p className="text-xs text-gray-500 truncate">{project.local_repo_path}</p>
                           {server && (
                             <p className="text-xs text-gray-600 truncate">{server.name}</p>
@@ -174,8 +174,7 @@ export function ProjectManager() {
                 <select
                   value={form.connection_id}
                   onChange={set('connection_id')}
-                  className="w-full bg-white/6 border border-white/10 text-gray-200 text-sm rounded-md px-3 py-1.5
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                  className="mac-control mac-select w-full text-gray-100 text-sm rounded-lg px-3 py-2"
                 >
                   <option value="">— none —</option>
                   {connections.map(c => (
@@ -204,17 +203,17 @@ export function ProjectManager() {
       {/* Delete confirmation dialog */}
       {deleteTarget && (
         <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/40">
-          <div className="bg-gray-900 border border-white/10 rounded-xl shadow-2xl w-full max-w-sm mx-4 p-6 space-y-4">
+          <div className="mac-modal w-full max-w-sm mx-4 p-6 space-y-4 rounded-2xl">
             <p className="text-sm text-gray-200">
               {t('project.delete_confirm')} <span className="font-semibold text-white">"{deleteTarget.name}"</span>?
             </p>
             {deleteError && (
-              <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded px-3 py-2">{deleteError}</p>
+              <p className="text-xs text-[#ffb4ae] bg-[#ff453a]/10 border border-[#ff453a]/20 rounded-lg px-3 py-2">{deleteError}</p>
             )}
             <div className="flex gap-2 justify-end">
               <Button variant="ghost" size="md" onClick={() => setDeleteTarget(null)}>{t('project.cancel')}</Button>
-              <Button variant="primary" size="md" onClick={handleDeleteConfirm}>
-                <span className="text-red-300">{t('project.delete')}</span>
+              <Button variant="danger" size="md" onClick={handleDeleteConfirm}>
+                {t('project.delete')}
               </Button>
             </div>
           </div>
@@ -236,14 +235,14 @@ function Field({
 }) {
   return (
     <div className="space-y-1">
-      <label className="text-xs text-gray-400">{label}</label>
+      <label className="text-xs font-medium text-gray-400">{label}</label>
       <input
         type="text"
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full bg-white/6 border border-white/10 text-gray-200 text-sm rounded-md px-3 py-1.5
-          placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+        className="mac-control w-full text-gray-100 text-sm rounded-lg px-3 py-2
+          placeholder:text-gray-600"
       />
     </div>
   )

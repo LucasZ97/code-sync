@@ -87,8 +87,8 @@ export function SetupWizard() {
   const stepLabel = step === 1 ? t('wizard.step1_label') : t('wizard.step2_label')
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-gray-900 border border-white/10 rounded-xl shadow-2xl w-full max-w-md mx-4">
+    <div className="mac-sheet-backdrop fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xl">
+      <div className="mac-modal w-full max-w-md mx-4 rounded-2xl overflow-hidden">
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-white/8">
           <h2 className="text-base font-semibold text-gray-100">{t('wizard.title')}</h2>
@@ -99,7 +99,7 @@ export function SetupWizard() {
           <div className="flex gap-1.5 mt-3">
             {[1, 2].map(s => (
               <div key={s} className={`h-1 rounded-full flex-1 transition-colors
-                ${s <= step ? 'bg-indigo-500' : 'bg-white/10'}`} />
+                ${s <= step ? 'bg-[linear-gradient(90deg,#0a84ff,#64d2ff)] shadow-[0_0_10px_rgba(10,132,255,0.32)]' : 'bg-white/10'}`} />
             ))}
           </div>
         </div>
@@ -113,7 +113,7 @@ export function SetupWizard() {
             </>
           ) : (
             <>
-              <p className="text-xs text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 rounded-md px-3 py-2">
+              <p className="text-xs text-[#9ed0ff] bg-[#0a84ff]/10 border border-[#0a84ff]/20 rounded-lg px-3 py-2">
                 {t('wizard.tunnel_hint')}
               </p>
               <Field label={t('wizard.server_name')} placeholder="Linux Dev Server" value={form.serverName} onChange={set('serverName')} />
@@ -166,14 +166,14 @@ function Field({
 }) {
   return (
     <div className="space-y-1">
-      <label className="text-xs text-gray-400">{label}</label>
+      <label className="text-xs font-medium text-gray-400">{label}</label>
       <input
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full bg-white/6 border border-white/10 text-gray-200 text-sm rounded-md px-3 py-1.5
-          placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+        className="mac-control w-full text-gray-100 text-sm rounded-lg px-3 py-2
+          placeholder:text-gray-600"
       />
     </div>
   )

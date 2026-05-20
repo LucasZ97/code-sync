@@ -40,13 +40,13 @@ export function PullPanel() {
     <div className="flex flex-col h-full">
       {/* Progress bar */}
       {isBusy && (
-        <div className="px-4 pt-3">
+        <div className="px-5 pt-4">
           <ProgressBar percent={state.progress.percent} label={state.progress.message} />
         </div>
       )}
 
       {/* Patch list */}
-      <div className="flex-1 overflow-y-auto px-4 py-3">
+      <div className="flex-1 overflow-y-auto px-5 py-4">
         <SectionHeader
           title={`${t('pull.title')} (${state.serverPatches.length})`}
           action={
@@ -63,31 +63,28 @@ export function PullPanel() {
             description={t('pull.empty_desc')}
           />
         ) : (
-          <ul className="space-y-1.5">
+          <ul className="space-y-2">
             {state.serverPatches.map((patch: PatchInfo) => {
               const isSelected = selected === patch.remote_path
               return (
                 <li
                   key={patch.remote_path}
                   onClick={() => setSelected(isSelected ? null : patch.remote_path)}
-                  className={`flex flex-col gap-1 px-3 py-2.5 rounded border cursor-pointer transition-colors
-                    ${isSelected
-                      ? 'border-indigo-500/50 bg-indigo-500/10'
-                      : 'border-white/8 bg-white/3 hover:bg-white/6'
-                    }`}
+                  className={`flex flex-col gap-1.5 px-3.5 py-3 rounded-lg cursor-pointer transition-all
+                    ${isSelected ? 'mac-list-row-selected' : 'mac-list-row'}`}
                 >
                   <div className="flex items-center gap-2">
                     {/* Radio dot */}
                     <div className={`w-3.5 h-3.5 rounded-full border-2 shrink-0 flex items-center justify-center
-                      ${isSelected ? 'border-indigo-500' : 'border-white/20'}`}>
-                      {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+                      ${isSelected ? 'border-[#64d2ff]' : 'border-white/22'}`}>
+                      {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-[#0a84ff] shadow-[0_0_8px_rgba(10,132,255,0.8)]" />}
                     </div>
                     <span className="text-xs text-gray-200 font-mono truncate flex-1" title={patch.filename}>
                       {patch.filename}
                     </span>
                     <Badge variant="muted">{formatBytes(patch.size_bytes)}</Badge>
                   </div>
-                  <div className="pl-5 text-xs text-gray-500">{patch.modified_at}</div>
+                  <div className="pl-5 text-xs text-gray-500 tabular-nums">{patch.modified_at}</div>
                 </li>
               )
             })}
@@ -96,7 +93,7 @@ export function PullPanel() {
       </div>
 
       {/* Action bar */}
-      <div className="px-4 py-3 border-t border-white/8 flex items-center gap-2">
+      <div className="mac-action-bar px-5 py-3 border-t flex items-center gap-2">
         <Button
           variant="secondary"
           size="sm"
