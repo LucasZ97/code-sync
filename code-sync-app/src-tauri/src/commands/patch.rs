@@ -15,6 +15,12 @@ pub async fn patch_upload(
     state: State<'_, AppState>,
 ) -> Result<UploadResult, String> {
     let config = state.config.lock().await;
+    let project = config
+        .projects
+        .iter()
+        .find(|p| p.id == project_id)
+        .ok_or_else(|| format!("Project '{project_id}' not found"))?;
+    let project_name = project.name.clone();
     let conn_cfg = config
         .connections
         .iter()
@@ -23,7 +29,7 @@ pub async fn patch_upload(
         .ok_or_else(|| format!("Connection '{connection_id}' not found"))?;
     drop(config);
 
-    upload_patch(&patch_path, &project_id, &conn_cfg)
+    upload_patch(&patch_path, &project_name, &conn_cfg)
         .await
         .map_err(|e| e.to_string())
 }
@@ -57,6 +63,12 @@ pub async fn patch_list(
     state: State<'_, AppState>,
 ) -> Result<Vec<PatchInfo>, String> {
     let config = state.config.lock().await;
+    let project = config
+        .projects
+        .iter()
+        .find(|p| p.id == project_id)
+        .ok_or_else(|| format!("Project '{project_id}' not found"))?;
+    let project_name = project.name.clone();
     let conn_cfg = config
         .connections
         .iter()
@@ -65,7 +77,7 @@ pub async fn patch_list(
         .ok_or_else(|| format!("Connection '{connection_id}' not found"))?;
     drop(config);
 
-    list_remote_patches(&project_id, &conn_cfg)
+    list_remote_patches(&project_name, &conn_cfg)
         .await
         .map_err(|e| e.to_string())
 }
